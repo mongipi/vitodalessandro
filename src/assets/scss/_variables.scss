@@ -5,13 +5,14 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Island+Moments&display=swap');
+@import url('https://fonts.gooogleapis.com/css2?family=Rammetto+One&family=Stalinist+One&display=swap');
 
 // Color variables
 $white:                     #ffffff;
 
 // $primary:                   #e54b4b;
-$primary:                   #25b865;
-$secondary:                 #5a6d90;
+$primary:                   rgb(12, 196, 82);
+$secondary:                 #404d66;
 $success:                   #25b865;
 $warning:                   #f9a836;
 $info:                      #44bed0;
@@ -35,7 +36,8 @@ $gray-700:                  #495057;
 $footer:                    lighten($dark, 5%);
 
 // Overlay
-$overlay:                   rgba($dark, 0.8);
+// $overlay:                   rgba($dark, 0.8);
+$overlay:                   rgba($gray-700, 0.8);
 $gradident-overlay:         rgba($primary, 0.6);
 $bg-overlay-white:          rgba($white, 0.7);
 $bg-overlay-dark:           rgba($black, 0.75);

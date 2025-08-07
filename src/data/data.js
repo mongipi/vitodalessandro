@@ -306,25 +306,25 @@ export const blogData = [
 export const contactData = [
     {
         icon: FiPhone,
-        title: 'Phone',
-        desc: 'Promising development turmoil inclusive education transformative community',
-        link:'+152 534-468-854',
+        title: 'Telefono',
+        // desc: 'Promising development turmoil inclusive education transformative community',
+        link:'+39 340 454 12 33',
         linkData: 'tel:+152534-468-854'
     },
     {
         icon: FiMail,
         title: 'Email',
-        desc: 'Promising development turmoil inclusive education transformative community',
-        link:'contact@example.com',
-        linkData: 'mailto:contact@example.com'
+        // desc: 'Promising development turmoil inclusive education transformative community',
+        link:'vitodalessandro@gmail.com',
+        linkData: 'mailto:vitodalessandro@gmail.com'
     },
-    {
-        icon: FiMapPin,
-        title: 'Location',
-        desc: 'C/54 Northwest Freeway, Suite 558, Houston, USA 485',
-        link:'View on Google map',
-        linkData: 'tel:+152534-468-854'
-    },
+    // {
+    //     icon: FiMapPin,
+    //     title: 'Location',
+    //     desc: 'C/54 Northwest Freeway, Suite 558, Houston, USA 485',
+    //     link:'View on Google map',
+    //     linkData: 'tel:+152534-468-854'
+    // },
 ]
 
 export const recentPost = [

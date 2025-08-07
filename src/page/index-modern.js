@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Link as Link1 } from "react-scroll";
 
-import heroImg1 from '../assets/images/home/vito_dalessandro_home.png'
+import heroImg1 from '../assets/images/home/vito_dalessandro_home.jpg'
 import heroImg2 from '../assets/images/home/hero_vito-dalessandro.jpg'
 import sign from '../assets/images/sign-vitodalessandro.png'
 import counterBg from '../assets/images/bg-counter.jpg'
@@ -24,41 +24,71 @@ import Blog from "../components/blog";
 import Client from "../components/client";
 import Portfolio from "../components/portfolio";
 import BottomBanner from "../components/BottomBanner";
+import bg1 from "../assets/images/home/04_vitodalessandro.jpg"
+import { TypeAnimation } from 'react-type-animation';
+import shape from '../assets/images/shape.png'
+import { getAllArticoli } from "../api/articoli";
 
 export default function IndexModern(){
     let [ activeIndex, setActiveIndex ] = useState(1);
+    const [articoli, setArticoli] = useState([]);
+        const fetchArticoli = async () => {
+    try {
+        const data = await getAllArticoli();
+        console.log('data ', data.data)
+        setArticoli(data.data);
+        console.log(articoli)
+      } catch (err) {
+        console.error(err.message);
+      } 
+    };
 
+  useEffect(() => {
+    fetchArticoli();
+  }, []);
     return(
         <>
-        <Navbar navClass="navbar-nav navbar-nav-link mx-auto" socialClass="list-unstyled mb-0 mt-2 mt-sm-0 social-icon" navDark={true}/>
+        <Navbar navClass="navbar-nav mx-auto" socialClass="list-unstyled mb-0 mt-2 mt-sm-0 social-icon light-social-icon"/>
 
-        <section className="bg-modern bg-light bg-animation-right" id="home">
-            <div className="container">
-                <div className="row align-items-center position-relative" style={{zIndex:'1'}}>
-                    <div className="col-lg-7 col-md-7">
-                        <div className="title-heading mt-5">
-                        <h6 className="sub-title">Mi chiamo</h6>
-                            <h1 className="heading text-primary mb-3">Vito D'Alessandro</h1>
-                            <h4 className="designation">Un cittadino in <span className="text-primary">COMUNE</span></h4>
+                <section className="bg-home" style={{backgroundImage:`url(${bg1})`}} id="home">
+                    <div className="bg-overlay"></div>
+                    <div className="container">
+                        <div className="row mt-5 mt-sm-0 justify-content-center">
+                            <div className="col-lg-12 text-center">
+                                <div className="title-heading">
+                                    <img src={heroImg1} className="img-fluid rounded-circle" alt=""/>
+                                    <h1 className="heading text-primary mt-3 rammetto-one-regular">VITO D'ALESSANDRO</h1>
+                                    <h6 className="sub-title text-light">Un cittadino in
+                                        <TypeAnimation
+                                            sequence={[
+                                                'COMUNE',
+                                                1000,
+                                                'ASCOLTO',
+                                                1000,
+                                                'AMBIENTE',
+                                                1000,
+                                            ]}
+                                            wrapper="span"
+                                            speed={50}
+                                            className="typewrite text-primary ps-1"
+                                            repeat={Infinity}
+                                            />
+                                    </h6>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div className="col-lg-5 col-md-5 mt-4 pt-2 mt-sm-0 pt-sm-0">
-                        <div className="hero-img">
-                            <img
-                            src={heroImg1}
-                            className="img-fluid w-100"
-                            style={{ maxWidth: '110%', height: 'auto' }}
-                            alt=""
-                            />
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="home-shape">
+                                <img src={shape} alt="" className="img-fluid mx-auto d-block"/>
+                            </div>
                         </div>
-                        </div>
-                </div>
-            </div> 
-            <Link1 to="services" data-scroll-nav="1" className="mouse-icon d-none d-md-inline-block rounded-pill bg-transparent mouse-down">
-                <span className="wheel position-relative d-block mover"></span>
-            </Link1>
-        </section>
+                    </div>
+                    <Link1 to="services" data-scroll-nav="1" className="mouse-icon mouse-icon-white rounded-pill bg-transparent mouse-down">
+                        <span className="wheel position-relative d-block mover"></span>
+                    </Link1>
+                </section>
 
      <section className="section bg-light" id="services">        
   <div className="container">    
@@ -101,7 +131,7 @@ export default function IndexModern(){
   </div>
 </section>
 
-        <section className="section bg-light pb-3" id="blog">
+        <section className="section bg-light pb-3 overflow-hidden" id="blog">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-12 text-center">
@@ -113,12 +143,18 @@ export default function IndexModern(){
                                     <div className="title-line"></div>
                                 </div>
                             </div>
-                            {/* <p className="text-muted mx-auto para-desc mt-5 mb-0">Obviously I'm a Web Designer. Experienced with all stages of the development cycle for dynamic web projects.</p> */}
                         </div>
                     </div>
                 </div>
 
-                <Blog/>
+                <Blog articoli={articoli}/>
+                <div className="row">
+                    <div className="col-lg-12 mt-4 pt-2">
+                        <div className="text-center wow animated fadeInUp" data-wow-delay="1.7s">
+                            <Link to="/page-blog" className="btn btn-outline-primary">Tutti gli articoli</Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

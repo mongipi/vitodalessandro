@@ -8,7 +8,7 @@ export default function Contact(){
             {contactData.map(( item, index ) =>{
                 let Icon = item.icon
                 return(
-                    <div className="col-md-4 mt-4 pt-2" key={index}>
+                    <div className="col-md-6 mt-6 pt-2" key={index}>
                         <div className="contact-detail text-center wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
                             <div className="icon">
                                 <Icon className="fea icon-md"/>
