@@ -30,7 +30,6 @@ export default function Navbar({navClass, socialClass, navDark}){
    
            window.scrollTo(0, 0);
 
-            // ✅ AGGIUNGI QUI: scroll post-redirect
         if (location.pathname === "/") {
             const sectionId = sessionStorage.getItem("scrollTo");
             if (sectionId) {
@@ -74,12 +73,12 @@ export default function Navbar({navClass, socialClass, navDark}){
     		<div className="container">
                 {navDark ? 
                     <Link className="navbar-brand" to="/">
-                        <p className="logo-text">VITO D'ALESSANDRO</p>
-                        <img src={logoLight} className="logo-dark-mode" alt=""/>
+                        <p className="logo-text l-light">VITO D'ALESSANDRO</p>
+                        <p className="logo-text l-dark">VITO D'ALESSANDRO</p>
                     </Link> :
                     <Link className="navbar-brand" to="/">
-                        <img src={logo} className="l-dark" alt=""/>
-                        <img src={logoLight} className="l-light" alt=""/>
+                        <p className="logo-text l-dark">VITO D'ALESSANDRO</p>
+                        <p className="logo-text l-light text-white">VITO D'ALESSANDRO</p>
                     </Link>
                 }
                 <button className="navbar-toggler" type="button" onClick={() =>setToggleManu(!toggleManu)}>
@@ -92,7 +91,7 @@ export default function Navbar({navClass, socialClass, navDark}){
                             <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to={'home' || 'about'} onClick={handleClickLink("home")}>Home</Link1>
                         </li>
                         <li className="nav-item" >
-                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} onClick={handleClickLink("blog")}>Blog</Link1>
+                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="blog" onClick={handleClickLink("blog")}>Blog</Link1>
                         </li>
                         <li className="nav-item">
                             <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="chi-sono" onClick={handleClickLink("chi-sono")}>Chi sono</Link1>
@@ -100,29 +99,6 @@ export default function Navbar({navClass, socialClass, navDark}){
                         <li className="nav-item">
                             <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="contattami" onClick={handleClickLink("contattami")}>Contattami</Link1>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={500} to="news">Blog</Link1>
-                        </li>
-                        <li className="nav-item">
-                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={500} to="contact">Contact</Link1>
-                        </li> */}
-                        {/* <li className="nav-item dropdown">
-                            <Link className={`${['/page-blog', "/page-blog-detail", "/page-portfolio", "/page-portfolio-detail"].includes(manu) ? 'active' : ''} nav-link dropdown-toggle`} to="#" onClick={()=>setDropdown(true)}>Pages</Link>
-                            <div className={`${dropdown ? 'show' : ''} dropdown-menu rounded m-0`}>
-                                <div className="container mx-0 mx-md-0">
-                                    <div className="row">
-                                        <div className="col-md-12">
-
-                                            <Link className={`${manu === '/page-blog' ? 'active-item' : ''} dropdown-item`} to="/page-blog">Blog</Link>
-                                            <Link className={`${manu === '/page-blog-detail' ? 'active-item' : ''} dropdown-item`} to="/page-blog-detail">Blog Detail</Link>
-                                            <Link className={`${manu === '/page-portfolio' ? 'active-item' : ''} dropdown-item`} to="/page-portfolio">Portfolio</Link>
-                                            <Link className={`${manu === '/page-portfolio-detail' ? 'active-item' : ''} dropdown-item`} to="/page-portfolio-detail">Portfolio Detail</Link>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li> */}
                     </ul>
 
                     <ul className={socialClass}>

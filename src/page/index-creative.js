@@ -4,6 +4,7 @@ import { Link as Link1 } from "react-scroll";
 
 import bg1 from "../assets/images/home/04.jpg"
 import heroImg from '../assets/images/home/hero.jpg'
+import heroImg1 from '../assets/images/home/vito_dalessandro_home.png'
 import heroImg2 from '../assets/images/hero.png'
 import sign from '../assets/images/sign.png'
 import counterBg from '../assets/images/bg-counter.jpg'
