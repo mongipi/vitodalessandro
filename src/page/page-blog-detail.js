@@ -83,7 +83,9 @@ export default function BlogDetail(){
                                     return(
                                         <h6 className="font-weight-normal"><i className="mdi mdi-tag text-primary me-1"></i><Link to="#" className="text-primary">{item.name}</Link></h6>
                                 )})}
-                                <RichText content={articolo.contenuto} />
+                                {Array.isArray(articolo.contenuto) && (
+                                    <RichText content={articolo.contenuto} />
+                                    )}
                             </div>
                         </div>
                     </div>
