@@ -12,6 +12,8 @@ import ScrollTop from "../components/scrollTop";
 
 import {getArticoloById} from "../api/articoli.js"
 import { formatDataISO } from "../utils/util.js"
+import { renderRichText } from "../components/renderRichText.js";
+import { RichText } from '@graphcms/rich-text-react-renderer';
 
 export default function BlogDetail(){
     let params = useParams();
@@ -85,7 +87,8 @@ export default function BlogDetail(){
                                     return(
                                         <h6 className="font-weight-normal"><i className="mdi mdi-tag text-primary me-1"></i><Link to="#" className="text-primary">{item.name}</Link></h6>
                                 )})}
-                                {articolo.testo}
+                                <RichText content={articolo.contenuto} />
+
                             </div>
                         </div>
                     </div>
