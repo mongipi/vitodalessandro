@@ -10,34 +10,40 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import ScrollTop from "../components/scrollTop";
 
-import { blogComment, blogData } from "../data/data";
-
-import { FiUser, FiTag, FiChevronRight } from '../assets/icons/vander'
 import {getArticoloById} from "../api/articoli.js"
 import { formatDataISO } from "../utils/util.js"
 
 export default function BlogDetail(){
     let params = useParams();
     let id = params.id
-    let data = blogData.find((blog) =>blog.id === parseInt(id))
 
   const [articolo, setArticolo] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-useEffect(() => {
-  getArticoloById(id)
-    .then((res) => setArticolo(res.data))
-    .catch((err) => console.error(err));
-}, []);
+    useEffect(() => {
+    getArticoloById(id)
+        .then((res) =>{
+            setArticolo(res.data)
+        } )
+        .catch((err) => console.error(err));
+    }, []);
 
 
     return(
         <>
         <Navbar navClass="navbar-nav mx-auto" socialClass="list-unstyled mb-0 mt-2 mt-sm-0 social-icon light-social-icon"/>
 
-        <section className="bg-half d-table w-100" style={{backgroundImage:`url(${ bg1 })`, backgroundPosition:'center'}}>
-            <div className="bg-overlay bg-overlay"></div>
+        <section
+        className="bg-half d-table w-100"
+        style={{
+            backgroundImage: articolo.immagini?.[0]?.url
+            ? `url(${articolo.immagini[0].url})`
+            : `url(${bg1})`,
+            backgroundPosition: 'center'
+        }}
+        >           
+         <div className="bg-overlay bg-overlay"></div>
             <div className="container">
                 <div className="row mt-5 justify-content-center">
                     <div className="col-lg-12 text-center">
@@ -58,12 +64,18 @@ useEffect(() => {
                     <div className="col-lg-5 col-md-4">
                         <div className="sticky-sidebar">
                             {
-                                articolo.immagini?.map((immagine) => {
-                                    <img src={ immagine.url } className="img-fluid rounded d-block mt-4" alt=""/> 
-                                })
+                                articolo.immagini?.[0]?.url && (
+                                    articolo.immagini.map((immagine, index) => (
+                                        <img 
+                                            key={immagine.id || index}
+                                            src={immagine.url}
+                                            className="img-fluid rounded d-block mt-4" 
+                                            alt="" 
+                                        />
+                                    ))
+                                )
                             }
-                            {/* <img src={ data?.image ? data.image : blog1 } className="img-fluid rounded" alt=""/>
-                            <img src={ blog2 } className="img-fluid rounded d-block mt-4" alt=""/> */}
+
                         </div>
                     </div>
                     <div className="col-lg-7 col-md-8 mt-4 mt-sm-0 pt-2 pt-sm-0">

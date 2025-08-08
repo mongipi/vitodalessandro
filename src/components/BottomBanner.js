@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Info } from "lucide-react";
+import { getSantoDelGiorno } from "../api/santo";
 
 const santoDelGiorno = "San Sisto II";
 const farmaciaDiTurno = "Farmacia Centrale, Via Roma 45";
@@ -8,13 +9,28 @@ const farmaciaDiTurno = "Farmacia Centrale, Via Roma 45";
 export default function BottomBanner() {
   const [visible, setVisible] = useState(true);
   const [showSanto, setShowSanto] = useState(true);
+  const [santoDelGiorno, setSantoDelGiorno] = useState(null);
 
   useEffect(() => {
+    // Carica il santo del giorno all’avvio
+    async function fetchSanto() {
+      try {
+        const data = await getSantoDelGiorno();
+        const santo = data.data.find(santo => santo.attributes.onomastico === true)
+        setSantoDelGiorno(santo.attributes.nome || "");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchSanto();
+
     const interval = setInterval(() => {
       setShowSanto((prev) => !prev);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  if (!visible) return null;
 
   return (
     <>

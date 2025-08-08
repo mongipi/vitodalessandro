@@ -1,6 +1,6 @@
 export async function getAllCategorie() {
   const res = await fetch(
-    `${process.env.REACT_APP_STRAPI_API_URL}/categories?populate=*`,
+    `${process.env.REACT_APP_STRAPI_API_URL}/api/categories?populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_STRAPI_TOKEN}`,

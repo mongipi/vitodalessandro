@@ -13,9 +13,9 @@ export default function Blog({ articoli = [] }){
                     return(
                         <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2" key={index}>
                             <div className="blog-post rounded shadow wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
-                                {item.immagini?.[0]?.url && (
+                                {item.immagini[0]?.url && (
                                 <img
-                                    src={item.immagini[0].url}
+                                   src={item.immagini[0].url}
                                     className="img-fluid rounded-top"
                                     alt=""
                                 />

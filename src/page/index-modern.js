@@ -146,7 +146,6 @@ export default function IndexModern(){
                         </div>
                     </div>
                 </div>
-
                 <Blog articoli={articoli}/>
                 <div className="row">
                     <div className="col-lg-12 mt-4 pt-2">
