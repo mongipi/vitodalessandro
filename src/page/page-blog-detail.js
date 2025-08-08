@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import bg1 from '../assets/images/home/bg-pages-vitodalessandro.jpg'
-import blog1 from '../assets/images/blog/06.jpg'
-import blog2 from '../assets/images/blog/single-1.jpg'
+
 
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -12,7 +11,6 @@ import ScrollTop from "../components/scrollTop";
 
 import {getArticoloById} from "../api/articoli.js"
 import { formatDataISO } from "../utils/util.js"
-import { renderRichText } from "../components/renderRichText.js";
 import { RichText } from '@graphcms/rich-text-react-renderer';
 
 export default function BlogDetail(){
@@ -20,8 +18,6 @@ export default function BlogDetail(){
     let id = params.id
 
   const [articolo, setArticolo] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
     useEffect(() => {
     getArticoloById(id)
@@ -29,7 +25,7 @@ export default function BlogDetail(){
             setArticolo(res.data)
         } )
         .catch((err) => console.error(err));
-    }, []);
+    }, [id]);
 
 
     return(
@@ -88,7 +84,6 @@ export default function BlogDetail(){
                                         <h6 className="font-weight-normal"><i className="mdi mdi-tag text-primary me-1"></i><Link to="#" className="text-primary">{item.name}</Link></h6>
                                 )})}
                                 <RichText content={articolo.contenuto} />
-
                             </div>
                         </div>
                     </div>
