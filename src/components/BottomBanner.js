@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Info } from "lucide-react";
+import { X } from "lucide-react";
 import { getSantoDelGiorno } from "../api/santo";
-
-const santoDelGiorno = "San Sisto II";
-const farmaciaDiTurno = "Farmacia Centrale, Via Roma 45";
+import { getFarmaciaTurno } from "../api/farmacie";
 
 export default function BottomBanner() {
   const [visible, setVisible] = useState(true);
   const [showSanto, setShowSanto] = useState(true);
   const [santoDelGiorno, setSantoDelGiorno] = useState(null);
+  const [farmaciaDiTurno, setFarmaciaDiTurno] = useState(null);
 
   useEffect(() => {
     // Carica il santo del giorno all’avvio
@@ -20,9 +19,23 @@ export default function BottomBanner() {
         setSantoDelGiorno(santo.attributes.nome || "");
       } catch (err) {
         console.error(err);
+        setSantoDelGiorno("");
+      }
+    }
+     async function fetchFarmacia() {
+      try {
+        const data = await getFarmaciaTurno();
+        console.log(data.data[0])
+        const farmacia = data.data[0].farmacia.nome;
+        const indirizzo = data.data[0].farmacia.indirizzo;
+        setFarmaciaDiTurno(farmacia + " - " + indirizzo)
+      } catch (err) {
+        console.error(err);
+        setFarmaciaDiTurno("")
       }
     }
     fetchSanto();
+    fetchFarmacia()
 
     const interval = setInterval(() => {
       setShowSanto((prev) => !prev);
@@ -30,7 +43,6 @@ export default function BottomBanner() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!visible) return null;
 
   return (
     <>

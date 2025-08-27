@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { blogData } from "../data/data";
 
 import { FiUser,FiTag,FiChevronRight } from "../assets/icons/vander"
 import { formatDataISO } from "../utils/util.js"
@@ -15,7 +14,7 @@ export default function Blog({ articoli = [] }){
                             <div className="blog-post rounded shadow wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
                                 {item.immagini && (
                                 <img
-                                   src={item.immagini[0].url}
+                                   src={item.immagini[0].formats.small.url}
                                     className="img-fluid rounded-top"
                                     alt=""
                                 />
@@ -24,10 +23,10 @@ export default function Blog({ articoli = [] }){
                                     <ul className="list-unstyled d-flex justify-content-between post-meta">
                                                 {/* <li><FiUser className="fea icon-sm me-1"/><Link to="#" className="text-dark">{item.name}</Link></li>  */}
                                                 <li>
-                                                    <FiTag className="fea icon-sm me-1"/>
                                                     {item.categories.map((categoria, i) => (
                                                         <Link to="" key={i} className="text-dark me-2">
-                                                        {categoria.name}
+                                                            <FiTag className="fea icon-sm me-1"/>
+                                                            {categoria.name}
                                                         </Link>
                                                     ))}
                                                 </li>                                            
