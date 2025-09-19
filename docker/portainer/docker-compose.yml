@@ -20,5 +20,5 @@ services:
       - portainer_data:/data
     networks:
       - reverse-proxy
-    # ports:
-    #   - 9443:9443
+    ports:
+      - 9443:9443
