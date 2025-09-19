@@ -1,9 +1,3 @@
-version: "3.9"
-
-networks:
-  reverse-proxy:
-    external: true
-
 services:
   fe:
     build:
@@ -15,9 +9,5 @@ services:
         REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: "351|ityfM1cWOpQPay0l0EHlO5PD4Eb7B2ROxagTExggc32337a0"
     container_name: fe
     restart: unless-stopped
-    networks:
-      - reverse-proxy
-    expose:
-      - "80"  # visibile solo all’interno del network reverse-proxy
-
-
+    ports:
+      - "3000:3000" 

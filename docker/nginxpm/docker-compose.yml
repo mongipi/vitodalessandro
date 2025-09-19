@@ -21,7 +21,7 @@ services:
       - nginxpm_letsencrypt:/etc/letsencrypt
     networks:
       - reverse-proxy
-    # ports:
-    #   - 80:80
-    #   - 443:443
-    #   - 81:81
+    ports:
+      - 80:80
+      - 443:443
+      - 81:81

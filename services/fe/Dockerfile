@@ -23,9 +23,5 @@ ENV REACT_APP_SANTO_DEL_GIORNO_API_TOKEN=$REACT_APP_SANTO_DEL_GIORNO_API_TOKEN
 # Build React in modalità produzione
 RUN npm run build
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
-
-
-
+EXPOSE 3000
+CMD ["npm", "start"]
