@@ -1,0 +1,23 @@
+version: "3.9"
+
+networks:
+  reverse-proxy:
+    external: true
+
+services:
+  fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_STRAPI_TOKEN: "ea5aff2da601f3459b42ce46e6520648fbf7726715dc2a1c30ce633eebb290fc981c3125fa2baead32fa3d90a83816865c7bd2474dcf2f20c3397620d9202d76378251eb892916284cc38a6e29c6985eb9982c3ae5459354c613f4d51a2240100fa02c400dc9ba7c585986027b99b9e20f08b4003b3ca439a062ff1a00633938"
+        REACT_APP_STRAPI_API_URL: "https://motivated-sunshine-bf9edf0a1a.strapiapp.com"
+        REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: "351|ityfM1cWOpQPay0l0EHlO5PD4Eb7B2ROxagTExggc32337a0"
+    container_name: fe
+    restart: unless-stopped
+    networks:
+      - reverse-proxy
+    expose:
+      - "80"  # visibile solo all’interno del network reverse-proxy
+
+
