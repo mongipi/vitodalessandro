@@ -16,4 +16,4 @@ services:
     networks:
       - reverse-proxy
     ports:
-      - "3000:3000"   # pubblica la porta 80 sul host
+      - "3000:80"   # pubblica la porta 80 sul host
