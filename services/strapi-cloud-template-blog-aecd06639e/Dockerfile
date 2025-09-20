@@ -1,30 +1,19 @@
-FROM node:22-alpine
+FROM node:18-alpine
+# Installing libvips-dev for sharp Compatibility
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
-# Installo librerie native necessarie (sharp ecc.)
-RUN apk add --no-cache build-base vips-dev bash git
+WORKDIR /opt/
+COPY package.json package-lock.json ./
+RUN npm install -g node-gyp
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
+ENV PATH /opt/node_modules/.bin:$PATH
 
-# Creo la cartella di lavoro
 WORKDIR /opt/app
-
-# Copio package.json e lock file
-COPY package*.json ./
-
-# Installo dipendenze come root
-RUN npm ci
-
-# Copio il resto del codice
 COPY . .
-
-ENV NODE_OPTIONS="--max-old-space-size=1536"
-
-# Build di Strapi come root (nessun problema di permessi)
-RUN npm run build
-
-# Espongo la porta
-EXPOSE 1337
-
-# Cambio utente solo ora per eseguire in sicurezza
+RUN chown -R node:node /opt/app
 USER node
-
-# Avvio l'applicazione
+RUN ["npm", "run", "build"]
+EXPOSE 1337
 CMD ["npm", "run", "develop"]
