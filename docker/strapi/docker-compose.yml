@@ -5,7 +5,6 @@ services:
     build:
       context: ../../services/strapi-cloud-template-blog-aecd06639e
       dockerfile: Dockerfile
-    image: strapi:latest
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: postgres
