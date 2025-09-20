@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articolis",
+  "info": {
+    "singularName": "articoli",
+    "pluralName": "articolis",
+    "displayName": "articoli"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titolo": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "articolis"
+    },
+    "pubblicato_il": {
+      "type": "datetime"
+    },
+    "immagini": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "contenuto": {
+      "type": "blocks",
+      "required": false
+    },
+    "testo": {
+      "type": "text"
+    }
+  }
+}

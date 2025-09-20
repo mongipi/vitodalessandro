@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "oraris",
+  "info": {
+    "singularName": "orari",
+    "pluralName": "oraris",
+    "displayName": "orari"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "turno": {
+      "type": "date"
+    },
+    "farmacia": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::farmacia.farmacia"
+    }
+  }
+}

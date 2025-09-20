@@ -21,3 +21,7 @@ nginxpm:
 
 fe:
 	$(call docker_rebuild, "fe", "docker/fe")
+
+strapi:
+	docker volume create strapi-data
+	$(call docker_rebuild, "strapi", "docker/strapi")
