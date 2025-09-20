@@ -15,6 +15,8 @@ RUN npm ci
 # Copio il resto del codice
 COPY . .
 
+ENV NODE_OPTIONS="--max-old-space-size=1536"
+
 # Build di Strapi come root (nessun problema di permessi)
 RUN npm run build
 
