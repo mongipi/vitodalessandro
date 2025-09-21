@@ -23,5 +23,5 @@ fe:
 	$(call docker_rebuild, "fe", "docker/fe")
 
 strapi:
-	docker volume create strapi-data
-	$(call docker_rebuild, "strapi", "docker/strapi")
+# 	docker volume create strapi-data
+	$(call docker_rebuild, "strapi", "services/strapi-cloud-template-blog-aecd06639e")
