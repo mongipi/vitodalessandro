@@ -39,7 +39,7 @@ ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN npm run build
 
 # Creating final production image
-FROM node:16-alpine
+FROM node:18-alpine
 RUN apk add --no-cache vips-dev
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
