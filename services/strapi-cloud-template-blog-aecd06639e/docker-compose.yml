@@ -20,7 +20,7 @@ services:
       - ./src:/opt/app/src
       - ./package.json:/opt/package.json
       - ./package-lock.json:/opt/package-lock.json
-
+      - ./data:/opt/app/data  
       - ./.env:/opt/app/.env
       - ./public/uploads:/opt/app/public/uploads
     ports:
