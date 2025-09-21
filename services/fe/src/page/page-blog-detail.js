@@ -12,6 +12,7 @@ import ScrollTop from "../components/scrollTop";
 import {getArticoloById} from "../api/articoli.js"
 import { formatDataISO } from "../utils/util.js"
 import { RichText } from '@graphcms/rich-text-react-renderer';
+import StrapiImage from "../components/StrapiMedia.jsx";
 
 export default function BlogDetail(){
     let params = useParams();
@@ -27,6 +28,11 @@ export default function BlogDetail(){
         .catch((err) => console.error(err));
     }, [id]);
 
+    const getImageUrl = (url) => {
+    if (!url) return null;
+    if (url.startsWith("http")) return url; // già assoluto
+    return `${process.env.REACT_APP_STRAPI_API_URL}${url}`;
+    };
 
     return(
         <>
@@ -36,7 +42,7 @@ export default function BlogDetail(){
         className="bg-half d-table w-100"
         style={{
             backgroundImage: articolo.immagini?.[0]?.url
-            ? `url(${articolo.immagini[0].url})`
+            ? `url(${getImageUrl(articolo.immagini[0].url)})`
             : `url(${bg1})`,
             backgroundPosition: 'center'
         }}
@@ -64,7 +70,7 @@ export default function BlogDetail(){
                             {
                                 articolo.immagini?.[0]?.url && (
                                     articolo.immagini.map((immagine, index) => (
-                                        <img 
+                                        <StrapiImage 
                                             key={immagine.id || index}
                                             src={immagine.url}
                                             className="img-fluid rounded d-block mt-4" 

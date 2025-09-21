@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { FiTag,FiChevronRight } from "../assets/icons/vander"
 import { formatDataISO } from "../utils/util.js"
+import StrapiImage from "./StrapiMedia.jsx";
 
 export default function Blog({ articoli = [] }){
     return(
@@ -12,7 +13,7 @@ export default function Blog({ articoli = [] }){
                         <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2" key={index}>
                             <div className="blog-post rounded shadow wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
                                 {item.immagini && (
-                                <img
+                                <StrapiImage
                                    src={item.immagini[0].formats.small.url}
                                     className="img-fluid rounded-top"
                                     alt=""
