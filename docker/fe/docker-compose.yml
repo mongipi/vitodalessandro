@@ -8,12 +8,12 @@ services:
       context: ../../services/fe   # percorso della cartella FE
       dockerfile: Dockerfile
       args:
-        REACT_APP_STRAPI_TOKEN: "ea5aff2da601f3459b42ce46e6520648fbf7726715dc2a1c30ce633eebb290fc981c3125fa2baead32fa3d90a83816865c7bd2474dcf2f20c3397620d76378251eb892916284cc38a6e29c6985eb9982c3ae5459354c613f4d51a2240100fa02c400dc9ba7c585986027b99b9e20f08b4003b3ca439a062ff1a00633938"
-        REACT_APP_STRAPI_API_URL: "https://motivated-sunshine-bf9edf0a1a.strapiapp.com"
+        REACT_APP_STRAPI_TOKEN: "119ce45f82e5433d98f67abcf90d393e787baea39122c99f5cfec5e958005e468bbec72d1353f5921bbe4a48d8eb915b0cd4d82bf7f923f3dcc010d3609ebaf53239c5cc191dec20bdf745b1be28179d38e0d5f5062f1f62da81bde9ad807388c3b9e42f45a170d54b22568e56b74515c7e1fa80d603b53689e1e1d419d175e2"
+        REACT_APP_STRAPI_API_URL: "http://217.154.4.79:1337"
         REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: "351|ityfM1cWOpQPay0l0EHlO5PD4Eb7B2ROxagTExggc32337a0"
     container_name: fe
     restart: unless-stopped
     networks:
       - reverse-proxy
     ports:
-      - "3000:3000"   # pubblica la porta 80 sul host
+      - "3000:3000"  

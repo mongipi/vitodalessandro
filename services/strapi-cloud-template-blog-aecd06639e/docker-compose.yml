@@ -27,6 +27,7 @@ services:
       - '1337:1337'
     networks:
       - strapi
+      - reverse-proxy
     depends_on:
       - strapiDB
       
@@ -69,3 +70,5 @@ networks:
   strapi:
     name: Strapi
     driver: bridge
+  reverse-proxy:
+    external: true
