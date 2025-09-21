@@ -14,6 +14,7 @@ COPY . .
 ENV PATH /opt/node_modules/.bin:$PATH
 RUN chown -R node:node /opt/app
 USER node
+ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN ["npm", "run", "build"]
 EXPOSE 1337
 CMD ["npm", "run", "develop"]
