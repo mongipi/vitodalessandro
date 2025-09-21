@@ -23,5 +23,8 @@ fe:
 	$(call docker_rebuild, "fe", "docker/fe")
 
 strapi:
-# 	docker volume create strapi-data
-	$(call docker_rebuild, "strapi", "services/strapi-cloud-template-blog-aecd06639e")
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml down && \
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml rm -f && \
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml pull && \
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml build  --build-arg NODE_ENV=production --file Dockerfile.prod && \
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml up -d
