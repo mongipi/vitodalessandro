@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
-import { FiUser,FiTag,FiChevronRight } from "../assets/icons/vander"
+import { FiTag,FiChevronRight } from "../assets/icons/vander"
 import { formatDataISO } from "../utils/util.js"
 
 export default function Blog({ articoli = [] }){
