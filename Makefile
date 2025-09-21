@@ -26,5 +26,5 @@ strapi:
 	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml down && \
 	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml rm -f && \
 	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml pull && \
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml build  --build-arg NODE_ENV=production -f Dockerfile.prod && \
+	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml build --build-arg NODE_ENV=production --file services/strapi-cloud-template-blog-aecd06639e/Dockerfile.prod
 	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml up -d
