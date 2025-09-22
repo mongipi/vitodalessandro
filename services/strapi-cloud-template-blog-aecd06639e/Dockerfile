@@ -49,8 +49,12 @@ WORKDIR /opt/app
 COPY --from=build /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
+COPY docker-entrypoint.sh /opt/app/docker-entrypoint.sh
+RUN chmod +x /opt/app/docker-entrypoint.sh
 RUN chown -R node:node /opt/app
 
 USER node
 EXPOSE 1337
+ENTRYPOINT ["/opt/app/docker-entrypoint.sh"]  
+
 CMD ["npm", "run", "start"]

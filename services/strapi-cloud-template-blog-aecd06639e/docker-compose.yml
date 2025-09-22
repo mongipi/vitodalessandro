@@ -1,74 +1,47 @@
 services:
   strapi:
-    container_name: strapi
-    build: .
-    image: strapi/strapi:latest
-    restart: unless-stopped
-    env_file: .env
+    build: .                   # usa build OPPURE image:, non entrambe
+    # image: strapi/strapi:latest
+
     environment:
-      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_CLIENT: postgres
       DATABASE_HOST: strapiDB
-      DATABASE_NAME: ${DATABASE_NAME}
-      DATABASE_USERNAME: ${DATABASE_USERNAME}
-      DATABASE_PORT: ${DATABASE_PORT}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      DATABASE_PORT: 5432
       NODE_ENV: ${NODE_ENV}
+
+      APP_KEYS_FILE: /run/secrets/app_keys
+      API_TOKEN_SALT_FILE: /run/secrets/api_token_salt
+      TRANSFER_TOKEN_SALT_FILE: /run/secrets/transfer_token_salt
+      ADMIN_JWT_SECRET_FILE: /run/secrets/admin_jwt_secret
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+      DATABASE_PASSWORD_FILE: /run/secrets/db_password
+
+    secrets:
+      - app_keys
+      - api_token_salt
+      - transfer_token_salt
+      - admin_jwt_secret
+      - jwt_secret
+      - db_password
+
     volumes:
       - ./config:/opt/app/config
       - ./src:/opt/app/src
       - ./package.json:/opt/package.json
       - ./package-lock.json:/opt/package-lock.json
-      - ./data:/opt/app/data  
-      - ./.env:/opt/app/.env
+      - ./data:/opt/app/data
+      # - ./.env:/opt/app/.env    # meglio tenerlo disattivato in produzione
       - ./public/uploads:/opt/app/public/uploads
-    ports:
-      - '1337:1337'
-    networks:
-      - strapi
-      - reverse-proxy
-    depends_on:
-      - strapiDB
-      
+    # ports/networks/depends_on come già hai
+
   strapiDB:
-    container_name: strapiDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
-    restart: unless-stopped
-    env_file: .env
     image: postgres:14.5-alpine
+    env_file: .env
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
-    volumes:
-      - strapi-data:/var/lib/postgresql/data/ #using a volume
-      #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
-
-    ports:
-      - '5432:5432'
-    networks:
-      - strapi
-      
-  strapiAdminer:
-    container_name: strapiAdminer
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - '9090:8080'
-    environment:
-      - ADMINER_DEFAULT_SERVER=strapiDB
-    networks:
-      - strapi
-    depends_on:
-      - strapiDB
-
-volumes:
-  strapi-data:
-
-networks:
-  strapi:
-    name: Strapi
-    driver: bridge
-  reverse-proxy:
-    external: true
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
