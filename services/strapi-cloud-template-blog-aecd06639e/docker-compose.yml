@@ -1,8 +1,8 @@
 services:
   strapi:
-    build: .                   # usa build OPPURE image:, non entrambe
+    build: . 
     # image: strapi/strapi:latest
-
+    entrypoint: ["/opt/app/docker-entrypoint.sh"]
     environment:
       DATABASE_CLIENT: postgres
       DATABASE_HOST: strapiDB
@@ -34,6 +34,7 @@ services:
       - ./data:/opt/app/data
       # - ./.env:/opt/app/.env    # meglio tenerlo disattivato in produzione
       - ./public/uploads:/opt/app/public/uploads
+      - ../../docker/docker-entrypoint.sh:/opt/app/docker-entrypoint.sh:ro
     # ports/networks/depends_on come già hai
 
   strapiDB:
