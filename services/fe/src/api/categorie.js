@@ -1,15 +1,9 @@
+import { fetchStrapi } from "./client";
+
 export async function getAllCategorie() {
-  const res = await fetch(
-    `${process.env.REACT_APP_STRAPI_API_URL}/api/categories?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_STRAPI_TOKEN}`,
-      },
-    }
-  );
+  const res = await fetchStrapi("/api/categories?populate=*");
 
   if (!res.ok) throw new Error("Errore nel recupero delle categorie");
 
-  const response = await res.json();
-  return response;
+  return res.json();
 }
