@@ -121,7 +121,8 @@ coverage
 # Strapi
 ############################
 
-# .env
+# Environment configuration
+services/strapi-cloud-template-blog-aecd06639e/.env
 license.txt
 exports
 .strapi

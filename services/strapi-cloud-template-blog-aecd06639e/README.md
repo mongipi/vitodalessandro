@@ -32,6 +32,10 @@ npm run build
 yarn build
 ```
 
+## 🔒 Environment configuration
+
+Sensitive configuration values such as `APP_KEYS`, JWT secrets, and database credentials are **not** stored in this repository. Use the provided `.env.example` file as a reference for the required variables and supply real values from a secure source (for example CI/CD secrets, a secrets manager, or environment variables injected at deploy time). When running locally, copy `.env.example` to `.env` and populate it with credentials retrieved through an approved secret channel.
+
 ## ⚙️ Deployment
 
 Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
