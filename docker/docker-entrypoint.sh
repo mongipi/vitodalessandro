@@ -15,7 +15,7 @@ load_from_file () {
 }
 
 # Variabili sensibili di Strapi/DB che vogliamo caricare dai secrets
-for v in APP_KEYS API_TOKEN_SALT ADMIN_JWT_SECRET TRANSFER_TOKEN_SALT JWT_SECRET DATABASE_PASSWORD; do
+for v in APP_KEYS API_TOKEN_SALT ADMIN_JWT_SECRET TRANSFER_TOKEN_SALT JWT_SECRET DATABASE_PASSWORD POSTGRES_PASSWORD_FILE; do
   load_from_file "$v"
 done
 
