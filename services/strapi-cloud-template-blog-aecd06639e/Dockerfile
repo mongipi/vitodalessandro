@@ -49,7 +49,7 @@ WORKDIR /opt/app
 COPY --from=build /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
-COPY ../docker/docker-entrypoint.sh /opt/app/docker-entrypoint.sh
+COPY ../../docker/docker-entrypoint.sh /opt/app/docker-entrypoint.sh
 RUN chmod +x /opt/app/docker-entrypoint.sh
 RUN chown -R node:node /opt/app
 
