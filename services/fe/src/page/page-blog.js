@@ -15,6 +15,7 @@ import { getAllArticoli } from "../api/articoli";
 import { getAllCategorie } from "../api/categorie";
 import { FiX } from "react-icons/fi";
 import { formatDataISO } from "../utils/util.js"
+import StrapiImage from "../components/StrapiMedia.jsx";
 
 export default function Blog(){
     const [articoli, setArticoli] = useState([]);
@@ -104,7 +105,7 @@ useEffect(() => {
                                     <div className="col-lg-6 col-12 mb-4 pb-2" key={index}>
                                         <div className="blog-post rounded shadow">
                                         {item.immagini?.[0]?.url && (
-                                        <img
+                                        <StrapiImage
                                             src={item.immagini[0].url}
                                             className="img-fluid rounded-top"
                                             alt=""
