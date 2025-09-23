@@ -9,6 +9,9 @@ services:
       dockerfile: Dockerfile
       args:
         REACT_APP_STRAPI_API_URL: ${REACT_APP_STRAPI_API_URL:?}
+        REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: ${REACT_APP_SANTO_DEL_GIORNO_API_TOKEN:?}
+        REACT_APP_STRAPI_TOKEN: ${REACT_APP_STRAPI_TOKEN:?}
+
     container_name: fe
     restart: unless-stopped
     networks:
