@@ -5,7 +5,7 @@ services:
     image: strapi/strapi:latest
     restart: unless-stopped
     environment:
-      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_CLIENT: postgres
       DATABASE_HOST: strapiDB
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
