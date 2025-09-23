@@ -2,7 +2,7 @@ services:
   strapi:
     container_name: strapi
     build: .
-    image: strapi/strapi:latest
+    # image: strapi/strapi:latest
     restart: unless-stopped
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -18,12 +18,12 @@ services:
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
       NODE_ENV: ${NODE_ENV}
     volumes:
-      - ./config:/opt/app/config
-      - ./src:/opt/app/src
-      - ./package.json:/opt/package.json
-      - ./package-lock.json:/opt/package-lock.json
-      - ./data:/opt/app/data  
-       - ./.env:/opt/app/.env
+      # - ./config:/opt/app/config
+      # - ./src:/opt/app/src
+      # - ./package.json:/opt/package.json
+      # - ./package-lock.json:/opt/package-lock.json
+      # - ./data:/opt/app/data  
+      #  - ./.env:/opt/app/.env
       - ./public/uploads:/opt/app/public/uploads
     ports:
       - '1337:1337'
