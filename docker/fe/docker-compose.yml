@@ -4,15 +4,18 @@ networks:
 
 services:
   fe:
+    container_name: fe
     build:
-      context: ../../services/fe   # percorso della cartella FE
+      context: ../../services/fe   # percorso cartella FE
       dockerfile: Dockerfile
-      args:
+      args:                        # build-time vars per React
         REACT_APP_STRAPI_API_URL: ${REACT_APP_STRAPI_API_URL:?}
         REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: ${REACT_APP_SANTO_DEL_GIORNO_API_TOKEN:?}
         REACT_APP_STRAPI_TOKEN: ${REACT_APP_STRAPI_TOKEN:?}
-
-    container_name: fe
+    environment:                   # runtime vars nel container
+      REACT_APP_STRAPI_API_URL: ${REACT_APP_STRAPI_API_URL:?}
+      REACT_APP_SANTO_DEL_GIORNO_API_TOKEN: ${REACT_APP_SANTO_DEL_GIORNO_API_TOKEN:?}
+      REACT_APP_STRAPI_TOKEN: ${REACT_APP_STRAPI_TOKEN:?}
     restart: unless-stopped
     networks:
       - reverse-proxy
