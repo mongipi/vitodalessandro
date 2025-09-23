@@ -5,7 +5,11 @@ export async function getSantoDelGiorno() {
 
   const url = `https://santodelgiorno.mintdev.me/api/v1/santo/data/${mese}/${giorno}`;
 
-  const res = await fetch(url);
+    const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.REACT_APP_SANTO_DEL_GIORNO_API_TOKEN}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Errore nel recupero del santo del giorno");

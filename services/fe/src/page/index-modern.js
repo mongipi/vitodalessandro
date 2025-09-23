@@ -30,7 +30,6 @@ import shape from '../assets/images/shape.png'
 import { getAllArticoli } from "../api/articoli";
 
 export default function IndexModern(){
-    let [ activeIndex, setActiveIndex ] = useState(1);
     const [articoli, setArticoli] = useState([]);
         const fetchArticoli = async () => {
     try {
@@ -63,9 +62,9 @@ export default function IndexModern(){
                                             sequence={[
                                                 'COMUNE',
                                                 1000,
-                                                'ASCOLTO',
+                                                'COMUNE',
                                                 1000,
-                                                'AMBIENTE',
+                                                'COMUNE',
                                                 1000,
                                             ]}
                                             wrapper="span"

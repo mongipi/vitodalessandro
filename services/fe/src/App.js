@@ -21,17 +21,17 @@ import Loader from "./components/loader";
 
 
 function App() {
-  let [loading, setLoading] = useState(true)
-  useEffect(() => {
-      let timeOut  = setTimeout(() => setLoading(false), 2000)
+  // let [loading, setLoading] = useState(true)
+  // useEffect(() => {
+  //     let timeOut  = setTimeout(() => setLoading(false), 2000)
 
-      return () => {
-        clearTimeout(timeOut);
-      };
-  }, [])
-  if (loading) {
-      return <Loader/>
-  }
+  //     return () => {
+  //       clearTimeout(timeOut);
+  //     };
+  // }, [])
+  // if (loading) {
+  //     return <Loader/>
+  // }
   return (
     <div className="App">
        <Routes>

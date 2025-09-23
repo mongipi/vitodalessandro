@@ -25,7 +25,6 @@ export default function BottomBanner() {
      async function fetchFarmacia() {
       try {
         const data = await getFarmaciaTurno();
-        console.log(data.data[0])
         const farmacia = data.data[0].farmacia.nome;
         const indirizzo = data.data[0].farmacia.indirizzo;
         setFarmaciaDiTurno(farmacia + " - " + indirizzo)
