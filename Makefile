@@ -23,8 +23,8 @@ fe:
 	$(call docker_rebuild, "fe", "docker/fe")
 
 strapi:
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml down && \
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml rm -f && \
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml pull && \
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml build --no-cache --build-arg NODE_ENV=production && \
-	docker compose -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml up -d
+	docker compose --env-file /opt/prod.env -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml down && \
+	docker compose --env-file /opt/prod.env -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml pull && \
+	docker compose --env-file /opt/prod.env -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml build --no-cache --build-arg NODE_ENV=production && \
+	docker compose --env-file /opt/prod.env -p strapi -f services/strapi-cloud-template-blog-aecd06639e/docker-compose.yml up -d
+
