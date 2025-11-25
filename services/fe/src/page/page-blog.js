@@ -58,7 +58,6 @@ const articoliDaMostrare = articoliFiltrati.slice(indexPrimo, indexUltimo);
     const fetchCategorie = async () => {
         try {
             const data = await getAllCategorie();
-            console.log(data.data)
             setCategorie(data.data);
         } catch (err) {
             console.error(err.message);

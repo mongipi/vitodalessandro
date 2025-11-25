@@ -1,0 +1,105 @@
+version: "3.9"
+
+volumes:
+  strapi-data:
+  fe-build:
+  nginxpm_data:
+  nginxpm_letsencrypt:
+
+networks:
+  strapi-network:
+    driver: overlay
+  reverse-proxy:
+    driver: overlay
+
+services:
+  strapiDB:
+    image: postgres:14.5-alpine
+    restart: unless-stopped
+    secrets:
+      - postgress-password
+    environment:
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgress-password
+      POSTGRES_DB: strapi
+    volumes:
+      - strapi-data:/var/lib/postgresql/data/
+    networks:
+      - strapi-network
+
+  strapiAdminer:
+    image: adminer
+    restart: unless-stopped
+    environment:
+      - ADMINER_DEFAULT_SERVER=strapiDB
+    ports:
+      - "9090:8080"
+    networks:
+      - strapi-network
+    depends_on:
+      - strapiDB
+
+  strapi:
+    image: pietromongiello/vitodalessandro:strapi-1.0.2
+    restart: unless-stopped
+    secrets:
+      - app-keys
+      - postgress-password
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      JWT_SECRET: tobemodified
+      ADMIN_JWT_SECRET: tobemodified
+      APP_KEYS_FILE: /run/secrets/app-keys
+      API_TOKEN_SALT: tobemodified
+      TRANSFER_TOKEN_SALT: tobemodified
+      NODE_ENV: production
+    volumes:
+      - strapi-data:/opt/app/data
+    networks:
+      - strapi-network
+      - reverse-proxy
+    depends_on:
+      - strapiDB
+
+  fe:
+    image: pietromongiello/vitodalessandro:frontend-1.0.2
+    secrets:
+      - strapi-token
+      - santo-token
+    environment:
+      REACT_APP_STRAPI_API_URL: http://strapi:1337
+      REACT_APP_STRAPI_TOKEN_FILE: /run/secrets/strapi-token
+      REACT_APP_SANTO_DEL_GIORNO_API_TOKEN_FILE: /run/secrets/santo-token
+    networks:
+      - reverse-proxy
+
+
+  nginxpm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginxpm
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - nginxpm_data:/data
+      - nginxpm_letsencrypt:/etc/letsencrypt
+    networks:
+      - reverse-proxy
+    ports:
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS
+      - "81:81"     # Interfaccia admin
+
+secrets:
+  strapi-token:
+    external: true
+  santo-token:
+    external: true
+  app-keys:
+    external: true
+  postgress-password:
+    external: true

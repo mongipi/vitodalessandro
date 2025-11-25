@@ -90,14 +90,17 @@ export default function Navbar({navClass, socialClass, navDark}){
                         <li className="nav-item">
                             <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to={'home' || 'about'} onClick={handleClickLink("home")}>Home</Link1>
                         </li>
+                         <li className="nav-item">
+                            <Link className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="/proposte">Le mie proposte</Link>
+                        </li>
                         <li className="nav-item" >
                             <Link className="nav-link" activeClass="active"  spy={true} smooth={true} to="/page-blog">Blog</Link>
                         </li>
                         <li className="nav-item">
-                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="chi-sono" onClick={handleClickLink("chi-sono")}>Chi sono</Link1>
+                            <Link className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="/collaboriamo" >Collaboriamo</Link>
                         </li>
                         <li className="nav-item">
-                            <Link1 className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="contattami" onClick={handleClickLink("contattami")}>Contattami</Link1>
+                            <Link className="nav-link" activeClass="active"  spy={true} smooth={true} duration={300} to="/info-utili">Info utili</Link>
                         </li>
                     </ul>
 

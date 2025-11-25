@@ -111,7 +111,7 @@ export const offerData = [
   },
   {
     icon: FaChalkboardTeacher,
-    title: "Educazione ambientale",
+    title: "Innovazione",
     desc: "Progetti nelle scuole e campagne informative per diffondere la cultura della responsabilità ecologica.",
   },
 ];

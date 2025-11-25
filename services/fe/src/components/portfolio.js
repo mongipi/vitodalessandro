@@ -1,88 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { portfolioData, portfolioImage } from "../data/data";
-
 import Lightbox from 'react-18-image-lightbox';
-import "react-18-image-lightbox/style.css"
+import "react-18-image-lightbox/style.css";
+import { FiCamera } from '../assets/icons/vander';
+import { getAllInizative } from "../api/iniziative";
 
-import { FiCamera } from '../assets/icons/vander'
+export default function Portfolio() {
+    const [isOpen, setisOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [iniziative, setIniziative] = useState([]);
 
-export default function Portfolio(){
-
-    let [selectedCategory, setSelectedCategory] = useState(null);
-    let [isOpen, setisOpen] = useState(false);
-    let [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    let handleMovePrev = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + portfolioImage.length - 1) % portfolioImage.length);
-    };
-
-    let handleMoveNext = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % portfolioImage.length);
-    };
-    let handleImageClick = (index) => {
+    const handleImageClick = (index) => {
         setCurrentImageIndex(index);
         setisOpen(true);
     };
-    let currentImage = portfolioImage[currentImageIndex];
-   
-    let matchCategory = (category) => {
-        setSelectedCategory(category);
+
+    const getImageUrl = (url) => {
+        if (!url) return null;
+        if (url.startsWith("http")) return url;
+        return `${process.env.REACT_APP_STRAPI_API_URL}${url}`;
     };
 
-    let filteredData = selectedCategory
-        ? portfolioData.filter((item) => item.category === selectedCategory)
-        : portfolioData;
+    const fetchIniziative = async () => {
+        try {
+            const data = await getAllInizative();
+            setIniziative(data.data);
+        } catch (err) {
+            console.error(err.message);
+        }
+    };
 
-    return(
-        <>
-            <div className="row mt-4 justify-content-center">
-                <div className="col-12 filters-group-wrap wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
-                    <div className="filters-group">
-                        <ul className="portfolioFilter list-inline mb-0 filter-options text-center">
-                            <li className={`${selectedCategory === null ? 'active' : '' } list-inline-item categories-name border text-dark px-3 rounded`} onClick={() =>matchCategory(null)}>All</li>
-                            <li className={`${selectedCategory === 'branding' ? 'active' : '' } list-inline-item categories-name border text-dark px-3 rounded`} onClick={() =>matchCategory('branding')}>Branding</li>
-                            <li className={`${selectedCategory === 'designing' ? 'active' : '' } list-inline-item categories-name border text-dark px-3 rounded`} onClick={() =>matchCategory('designing')}>Designing</li>
-                            <li className={`${selectedCategory === 'photography' ? 'active' : '' } list-inline-item categories-name border text-dark px-3 rounded`} onClick={() =>matchCategory('photography')}>Photography</li>
-                            <li className={`${selectedCategory === 'development' ? 'active' : '' } list-inline-item categories-name border text-dark px-3 rounded`} onClick={() =>matchCategory('development')}>Development</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+    const getLightboxImage = () => {
+        if (!iniziative[currentImageIndex]) return "";
+        return getImageUrl(iniziative[currentImageIndex].immagini[0].url);
+    };
 
-            <div id="grid" className="row">
-                {filteredData.map((item, index) =>{
-                    return(
-                        <div className="col-lg-4 col-md-6 mt-4 pt-2 picture-item wow animate__animated animate__fadeInUp" data-wow-delay=".5s" key={index}>
-                            <div className="item-box portfolio-box rounded shadow bg-white overflow-hidden">
-                                <div className="portfolio-box-img position-relative overflow-hidden">
-                                    <img className="item-container img-fluid mx-auto" src={item.image} alt=""/>
-                                    <div className="overlay-work">
-                                        <div className="work-content text-center">
-                                            <Link to="#" onClick={() => handleImageClick(index)} className="lightbox text-light work-icon bg-dark d-inline-block rounded-pill "><FiCamera className="fea icon-sm image-icon"/></Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="gallary-title py-4 text-center">
-                                    <h5><Link to="/page-portfolio-detail" className="title text-dark">{item.title}</Link></h5>
-                                    <span>{item.name}</span>
+    useEffect(() => {
+        fetchIniziative();
+    }, []);
+
+    const styles = {
+        box: {
+            height: "250px",
+            width: "100%",
+            overflow: "hidden",
+        },
+        img: {
+            height: "100%",
+            width: "100%",
+            objectFit: "cover",
+        }
+    };
+
+
+    return (
+        <div id="grid" className="row">
+            {iniziative.map((item, index) => (
+                <div className="col-lg-4 col-md-6 mt-4 pt-2 picture-item" key={index}>
+                    <div className="item-box portfolio-box rounded shadow bg-white overflow-hidden">
+                        <div className="portfolio-box-img position-relative overflow-hidden" style={styles.box}>
+                            <img
+                                className="item-container w-full h-full object-cover mx-auto"
+                                src={getImageUrl(item.immagini[0].url)}
+                                alt=""
+                                style={styles.img}
+                            />
+                            <div className="overlay-work">
+                                <div className="work-content text-center">
+                                    <Link to="#" onClick={() => handleImageClick(index)} className="lightbox text-light work-icon bg-dark d-inline-block rounded-pill">
+                                        <FiCamera className="fea icon-sm image-icon" />
+                                    </Link>
                                 </div>
                             </div>
                         </div>
-                    )
-                })}
-                {isOpen && (
-                    <Lightbox
-                        mainSrc={currentImage}
-                        prevSrc={portfolioImage[(currentImageIndex + portfolioImage.length - 1) % portfolioImage.length]}
-                        nextSrc={portfolioImage[(currentImageIndex + 1) % portfolioImage.length]}
+                        <div className="gallary-title py-4 text-center">
+                            <h5><Link to={`/inizative-detail/${item.documentId}`} className="title text-dark">{item.titolo}</Link></h5>
+                        </div>
+                    </div>
+                </div>
+            ))}
 
-                        onCloseRequest={() => setisOpen(false)}
-                        onMovePrevRequest={handleMovePrev}
-                        onMoveNextRequest={handleMoveNext}
-                    />
-                )}
-            </div>
-        </>
-    )
+            {isOpen && (
+                <Lightbox
+                    mainSrc={getLightboxImage()}  // <-- qui
+                    onCloseRequest={() => setisOpen(false)}
+                />
+            )}
+        </div>
+    );
 }

@@ -474,6 +474,39 @@ export interface ApiFarmaciaFarmacia extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiIniziativeIniziative extends Struct.CollectionTypeSchema {
+  collectionName: 'iniziatives';
+  info: {
+    displayName: 'Iniziative';
+    pluralName: 'iniziatives';
+    singularName: 'iniziative';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    immagini: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::iniziative.iniziative'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    testo: Schema.Attribute.Blocks;
+    titolo: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOrariOrari extends Struct.CollectionTypeSchema {
   collectionName: 'oraris';
   info: {
@@ -1012,6 +1045,7 @@ declare module '@strapi/strapi' {
       'api::articoli.articoli': ApiArticoliArticoli;
       'api::category.category': ApiCategoryCategory;
       'api::farmacia.farmacia': ApiFarmaciaFarmacia;
+      'api::iniziative.iniziative': ApiIniziativeIniziative;
       'api::orari.orari': ApiOrariOrari;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

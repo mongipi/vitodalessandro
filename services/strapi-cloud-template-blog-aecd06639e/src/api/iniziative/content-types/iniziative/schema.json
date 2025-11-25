@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "iniziatives",
+  "info": {
+    "singularName": "iniziative",
+    "pluralName": "iniziatives",
+    "displayName": "Iniziative"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titolo": {
+      "type": "string"
+    },
+    "testo": {
+      "type": "blocks"
+    },
+    "immagini": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}
