@@ -9,7 +9,7 @@ import PagePortfolio from "./page/page-portfolio";
 import PortfolioDetail from "./page/page-portfolio-detail";
 import Index from "./page/index-modern";
 import Collaboriamo from "./page/collaboriamo";
-
+import InfoUtili from "./page/info";
 function App() {
   return (
     <div className="App">
@@ -22,6 +22,7 @@ function App() {
           <Route path="/proposte" element={<PagePortfolio/>}/>
           <Route path="/collaboriamo" element={<Collaboriamo/>}/>
           <Route path="/page-portfolio-detail" element={<PortfolioDetail/>}/>
+          <Route path="/info-utili" element={<InfoUtili/>}/>
        </Routes>
     </div>
   );
