@@ -73,13 +73,16 @@ export default function Collaboriamo() {
       {/* 🔹 SEZIONE PRINCIPALE */}
       <section className="section pt-5 mt-3">
         <div className="container">
+            <div className="row justify-content-center mb-5">
+              <div className="col-lg-12 text-center">
+                    <p className="text-muted fs-6">
+                      Qui chi crede nel potere delle idee e nella forza della collaborazione può dare voce ai propri pensieri. Che tu abbia un’idea, un progetto, una proposta o anche solo un’osservazione, questo è il posto giusto per condividerla. Ogni contributo, grande o piccolo, conta: insieme possiamo costruire una città più attenta, equa e sostenibile.
+                    </p>
+                </div>
+            </div>
           <div className="row align-items-start">
             {/* 🔸 Colonna sinistra: contatti sopra, form sotto */}
             <div className="col-12 col-lg-8">
-              <div className="mb-5">
-                <Contact />
-              </div>
-
               <form onSubmit={sendEmail}>
                 <div className="row">
                   <div className="col-12 mb-3">
@@ -139,8 +142,12 @@ export default function Collaboriamo() {
                       Invia Messaggio
                     </button>
                   </div>
+    
                 </div>
               </form>
+              <div className="my-5">
+                    <Contact />
+              </div>
             </div>
 
             {/* 🔸 Colonna destra: feed Facebook */}

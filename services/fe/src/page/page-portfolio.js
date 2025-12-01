@@ -45,10 +45,9 @@ export default function PagePortfolio(){
                     
                     {/* 🔸 COLONNA SINISTRA */}
                     <div className="col-12 col-lg-8">
-
                         <div className="row justify-content-center mb-5">
                             <div className="col-lg-12 text-center">
-                                <p className="text-muted fs-5">
+                                <p className="text-muted fs-6">
                                     Qui ho raccolto le proposte che ho costruito ascoltando i cittadini, 
                                     osservando da vicino le realtà del territorio e vivendo ogni giorno la 
                                     nostra comunità. Sono idee nate da problemi reali, ma anche da sogni, 
