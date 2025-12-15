@@ -28,6 +28,88 @@ Desktop.ini
 $RECYCLE.BIN/
 *.cab
 *.msi
+
+############################
+# ENVIRONMENT & SECRETS
+############################
+
+.env
+.env.local
+.env.staging
+.env.production
+.env.*.local
+docker/secrets/
+docker/secrets/*
+!docker/secrets/.gitkeep
+
+############################
+# NODE & npm
+############################
+
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.npm
+
+############################
+# BUILD OUTPUTS
+############################
+
+build/
+dist/
+.next/
+.cache/
+.vercel/
+services/fe/build/
+
+############################
+# REACT
+############################
+
+services/fe/build/
+services/fe/.env.local
+services/fe/coverage/
+
+############################
+# STRAPI
+############################
+
+services/strapi*/node_modules/
+services/strapi*/.cache/
+services/strapi*/.env
+services/strapi*/.env.local
+services/strapi*/.strapi-updater.json
+services/strapi*/tmp/
+
+############################
+# DATABASE
+############################
+
+*.db
+*.sqlite
+*.sqlite3
+.tmp/
+data/
+*.sql
+*.sql.gz
+
+############################
+# IDE & EDITOR
+############################
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env.swp
+*.sublime-project
+*.sublime-workspace
 *.msm
 *.msp
 

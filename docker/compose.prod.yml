@@ -1,0 +1,245 @@
+version: "3.9"
+
+# =============================================================================
+# PRODUCTION ENVIRONMENT - docker-compose.prod.yml
+# 
+# Per deployare su Docker Swarm
+# 
+# Usa: docker stack deploy -c docker/compose.prod.yml vitodalessandro
+# =============================================================================
+
+volumes:
+  strapi-prod-data:
+  nginxpm-data:
+  nginxpm-letsencrypt:
+
+networks:
+  strapi-prod-network:
+    driver: overlay
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+  reverse-proxy:
+    driver: overlay
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+
+services:
+  # ============================================================
+  # DATABASE
+  # ============================================================
+  strapiDB:
+    image: postgres:14.5-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/db_username
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB_FILE: /run/secrets/db_name
+    volumes:
+      - strapi-prod-data:/var/lib/postgresql/data
+    networks:
+      - strapi-prod-network
+    secrets:
+      - db_username
+      - db_password
+      - db_name
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$(cat /run/secrets/db_username)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================
+  # DATABASE BROWSER (Adminer)
+  # ============================================================
+  strapiAdminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: strapiDB
+    networks:
+      - strapi-prod-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+
+  # ============================================================
+  # STRAPI CMS
+  # ============================================================
+  strapi:
+    image: ${DOCKER_USERNAME}/vitodalessandro:strapi-production-${APP_VERSION}
+    restart: unless-stopped
+    environment:
+      # Database
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SSL: ${DATABASE_SSL}
+      DATABASE_SSL_REJECT_UNAUTHORIZED: ${DATABASE_SSL_REJECT_UNAUTHORIZED}
+      DATABASE_POOL_MIN: ${DATABASE_POOL_MIN}
+      DATABASE_POOL_MAX: ${DATABASE_POOL_MAX}
+
+      # Node
+      NODE_ENV: production
+
+      # Strapi Secrets (da file)
+      JWT_SECRET_FILE: /run/secrets/strapi_jwt_secret
+      ADMIN_JWT_SECRET_FILE: /run/secrets/strapi_admin_jwt_secret
+      API_TOKEN_SALT_FILE: /run/secrets/strapi_api_token_salt
+      TRANSFER_TOKEN_SALT_FILE: /run/secrets/strapi_transfer_token_salt
+      APP_KEYS_FILE: /run/secrets/strapi_app_keys
+
+      # API URLs
+      STRAPI_ADMIN_URL: ${STRAPI_ADMIN_URL}
+    secrets:
+      - strapi_jwt_secret
+      - strapi_admin_jwt_secret
+      - strapi_api_token_salt
+      - strapi_transfer_token_salt
+      - strapi_app_keys
+    volumes:
+      - strapi-prod-data:/opt/app/data
+    networks:
+      - strapi-prod-network
+      - reverse-proxy
+    depends_on:
+      strapiDB:
+        condition: service_healthy
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1G
+        reservations:
+          cpus: "1"
+          memory: 512M
+      labels:
+        - "com.centurylinklabs.watchtower.enable=true"
+
+  # ============================================================
+  # FRONTEND REACT
+  # ============================================================
+  frontend:
+    image: ${DOCKER_USERNAME}/vitodalessandro:frontend-production-${APP_VERSION}
+    restart: unless-stopped
+    environment:
+      # React App Config
+      REACT_APP_STRAPI_API_URL: ${REACT_APP_STRAPI_API_URL}
+      REACT_APP_STRAPI_TOKEN_FILE: /run/secrets/strapi_api_token
+      REACT_APP_SANTO_DEL_GIORNO_API_TOKEN_FILE: /run/secrets/santo_api_token
+    secrets:
+      - strapi_api_token
+      - santo_api_token
+    networks:
+      - reverse-proxy
+    depends_on:
+      - strapi
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+      labels:
+        - "com.centurylinklabs.watchtower.enable=true"
+
+  # ============================================================
+  # NGINX PROXY MANAGER
+  # ============================================================
+  nginxpm:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    environment:
+      DISABLE_IPV6: "true"
+    volumes:
+      - nginxpm-data:/data
+      - nginxpm-letsencrypt:/etc/letsencrypt
+    networks:
+      - reverse-proxy
+    ports:
+      - "80:80"    # HTTP
+      - "443:443"  # HTTPS
+      - "81:81"    # Admin Panel
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+      labels:
+        - "com.centurylinklabs.watchtower.enable=true"
+
+# ============================================================
+# DOCKER SECRETS
+# ============================================================
+# Questi secrets DEVONO essere creati prima di deployare:
+#
+# docker secret create strapi_jwt_secret -
+# docker secret create strapi_admin_jwt_secret -
+# docker secret create strapi_api_token_salt -
+# docker secret create strapi_transfer_token_salt -
+# docker secret create strapi_app_keys -
+# docker secret create strapi_api_token -
+# docker secret create santo_api_token -
+# docker secret create db_username -
+# docker secret create db_password -
+# docker secret create db_name -
+# ============================================================
+secrets:
+  strapi_jwt_secret:
+    external: true
+  strapi_admin_jwt_secret:
+    external: true
+  strapi_api_token_salt:
+    external: true
+  strapi_transfer_token_salt:
+    external: true
+  strapi_app_keys:
+    external: true
+  strapi_api_token:
+    external: true
+  santo_api_token:
+    external: true
+  db_username:
+    external: true
+  db_password:
+    external: true
+  db_name:
+    external: true
