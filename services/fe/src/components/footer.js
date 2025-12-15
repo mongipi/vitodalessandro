@@ -1,6 +1,4 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import logoLight from '../assets/images/logo-dark.png'
 
 export default function Footer(){
     return(
@@ -24,6 +22,11 @@ export default function Footer(){
         <footer className="footer footer-bar bg-dark wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
             <div className="container text-foot text-center">
                 <p className="mb-0">© {new Date().getFullYear()} Vito D'Alessandro - un cittadino in comune</p>
+                <p className="mb-0 mt-2">
+                    <a href="https://www.iubenda.com/privacy-policy/25000737" className="text-muted" target="_blank" rel="noopener noreferrer">
+                        Privacy Policy
+                    </a>
+                </p>
             </div>
         </footer>
         </>

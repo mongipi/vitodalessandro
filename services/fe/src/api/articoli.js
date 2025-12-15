@@ -1,23 +1,42 @@
-import { fetchStrapi } from "./client";
+import { fetchStrapiJSON, APIError } from "./client";
+import { ENDPOINTS, ERROR_MESSAGES } from "../config/config";
 
+/**
+ * Recupera tutti gli articoli pubblicati
+ * @returns {Promise<Object>} Lista articoli
+ * @throws {APIError}
+ */
 export async function getAllArticoli() {
-  const now = new Date().toISOString();
-  const query = `/api/articolis?populate=*&filters[pubblicato_il][$lte]=${encodeURIComponent(
-    now
-  )}&filters[publishedAt][$notNull]=true&sort=pubblicato_il:desc`;
+  try {
+    const now = new Date().toISOString();
+    const query = `${ENDPOINTS.ARTICOLI}?populate=*&filters[pubblicato_il][$lte]=${encodeURIComponent(
+      now
+    )}&filters[publishedAt][$notNull]=true&sort=pubblicato_il:desc`;
 
-  const res = await fetchStrapi(query);
-
-  if (!res.ok) throw new Error("Errore nel recupero articoli");
-
-  return res.json();
+    return await fetchStrapiJSON(query);
+  } catch (error) {
+    console.error("Error fetching articoli:", error);
+    throw new APIError(ERROR_MESSAGES.SERVER, error.status, error);
+  }
 }
 
+/**
+ * Recupera un articolo specifico per ID
+ * @param {string} id - ID dell'articolo
+ * @returns {Promise<Object>} Dati articolo
+ * @throws {APIError}
+ */
 export async function getArticoloById(id) {
-  const res = await fetchStrapi(`/api/articolis/${id}?populate=*`);
+  try {
+    if (!id) {
+      throw new APIError("ID articolo non fornito");
+    }
 
-  if (!res.ok) throw new Error("Errore nel recupero dell'articolo");
-
-  return res.json();
+    const query = `${ENDPOINTS.ARTICOLI}/${id}?populate=*`;
+    return await fetchStrapiJSON(query);
+  } catch (error) {
+    console.error(`Error fetching articolo ${id}:`, error);
+    throw new APIError(ERROR_MESSAGES.SERVER, error.status, error);
+  }
 }
 

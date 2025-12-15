@@ -1,14 +1,34 @@
-import { fetchStrapi } from "./client";
+import { fetchStrapiJSON, APIError } from "./client";
+import { ENDPOINTS, ERROR_MESSAGES } from "../config/config";
 
+/**
+ * Recupera la farmacia di turno per oggi
+ * @returns {Promise<Object>} Dati farmacia di turno
+ * @throws {APIError}
+ */
 export async function getFarmaciaTurno() {
-  const today = new Date().toISOString().split("T")[0];
+  try {
+    const today = new Date().toISOString().split("T")[0];
+    const query = `${ENDPOINTS.ORARI}?filters[turno][$eq]=${today}&populate=farmacia`;
+    return await fetchStrapiJSON(query);
+  } catch (error) {
+    console.error("Error fetching farmacia turno:", error);
+    throw new APIError(ERROR_MESSAGES.SERVER, error.status, error);
+  }
+}
 
-  const res = await fetchStrapi(
-    `/api/oraris?filters[turno][$eq]=${today}&populate=farmacia`
-  );
-
-  if (!res.ok) throw new Error("Errore nel recupero delle categorie");
-
-  return res.json();
+/**
+ * Recupera tutte le farmacie
+ * @returns {Promise<Object>} Lista farmacie
+ * @throws {APIError}
+ */
+export async function getAllFarmacie() {
+  try {
+    const query = `${ENDPOINTS.FARMACIE}?populate=*`;
+    return await fetchStrapiJSON(query);
+  } catch (error) {
+    console.error("Error fetching farmacie:", error);
+    throw new APIError(ERROR_MESSAGES.SERVER, error.status, error);
+  }
 }
 

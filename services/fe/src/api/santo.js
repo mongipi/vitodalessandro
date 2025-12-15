@@ -1,19 +1,48 @@
+import { APIError } from "./client";
+import { SANTO_API_URL, SANTO_API_TOKEN, ERROR_MESSAGES, FETCH_TIMEOUT } from "../config/config";
+
+/**
+ * Recupera il santo del giorno
+ * @returns {Promise<Object>} Dati santo
+ * @throws {APIError}
+ */
 export async function getSantoDelGiorno() {
-  const now = new Date();
-  const mese = now.getMonth() + 1; // numero, es. 3
-  const giorno = now.getDate(); // numero, es. 8
+  try {
+    const now = new Date();
+    const mese = now.getMonth() + 1;
+    const giorno = now.getDate();
 
-  const url = `https://santodelgiorno.mintdev.me/api/v1/santo/data/${mese}/${giorno}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
 
-    const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.REACT_APP_SANTO_DEL_GIORNO_API_TOKEN}`,
-    },
-  });
+    try {
+      const response = await fetch(`${SANTO_API_URL}/${mese}/${giorno}`, {
+        headers: {
+          Authorization: `Bearer ${SANTO_API_TOKEN}`,
+        },
+        signal: controller.signal,
+      });
 
-  if (!res.ok) {
-    throw new Error("Errore nel recupero del santo del giorno");
+      if (!response.ok) {
+        throw new APIError(
+          `HTTP ${response.status}: ${ERROR_MESSAGES.SERVER}`,
+          response.status,
+          response
+        );
+      }
+
+      return await response.json();
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new APIError(ERROR_MESSAGES.TIMEOUT);
+    }
+    if (error instanceof APIError) {
+      throw error;
+    }
+    console.error("Error fetching santo del giorno:", error);
+    throw new APIError(ERROR_MESSAGES.GENERIC, null, error);
   }
-
-  return res.json();
 }
