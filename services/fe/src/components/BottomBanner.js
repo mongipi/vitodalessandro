@@ -7,21 +7,21 @@ import { getFarmaciaTurno } from "../api/farmacie";
 export default function BottomBanner() {
   const [visible, setVisible] = useState(true);
   const [showSanto, setShowSanto] = useState(true);
-  const [santoDelGiorno, setSantoDelGiorno] = useState(null);
+  // const [santoDelGiorno, setSantoDelGiorno] = useState(null);
   const [farmaciaDiTurno, setFarmaciaDiTurno] = useState(null);
 
   useEffect(() => {
     // Carica il santo del giorno all’avvio
-    async function fetchSanto() {
-      try {
-        const data = await getSantoDelGiorno();
-        const santo = data.data.find(santo => santo.attributes.onomastico === true)
-        setSantoDelGiorno(santo.attributes.nome || "");
-      } catch (err) {
-        console.error(err);
-        setSantoDelGiorno("");
-      }
-    }
+    // async function fetchSanto() {
+    //   try {
+    //     const data = await getSantoDelGiorno();
+    //     const santo = data.data.find(santo => santo.attributes.onomastico === true)
+    //     setSantoDelGiorno(santo.attributes.nome || "");
+    //   } catch (err) {
+    //     console.error(err);
+    //     setSantoDelGiorno("");
+    //   }
+    // }
      async function fetchFarmacia() {
       try {
         const data = await getFarmaciaTurno();
@@ -33,7 +33,7 @@ export default function BottomBanner() {
         setFarmaciaDiTurno("")
       }
     }
-    fetchSanto();
+    // fetchSanto();
     fetchFarmacia()
 
     const interval = setInterval(() => {
@@ -47,7 +47,7 @@ export default function BottomBanner() {
     <>
       {/* Banner visibile */}
       <AnimatePresence>
-        {visible && (
+        {visible && farmaciaDiTurno && farmaciaDiTurno !== "" && (
           <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
@@ -57,15 +57,19 @@ export default function BottomBanner() {
             style={{ zIndex: 1080 }}
           >
             <div className="fs-5">
-              {showSanto ? (
+               <>
+                  <strong>Farmacia di turno:</strong> {farmaciaDiTurno}
+                </>
+              {/* {showSanto ? (
                 <>
                   <strong>Santo del giorno:</strong> {santoDelGiorno}
                 </>
-              ) : (
+              ) : 
+              (
                 <>
                   <strong>Farmacia di turno:</strong> {farmaciaDiTurno}
                 </>
-              )}
+              )} */}
             </div>
             <button
               onClick={() => setVisible(false)}

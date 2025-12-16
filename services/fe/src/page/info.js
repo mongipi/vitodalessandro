@@ -91,32 +91,39 @@ export default function InfoUtili() {
                 <h5 className="mb-3">🚔 Polizia Locale</h5>
                 <p>
                   <strong>Indirizzo:</strong> Via Dossetti, Bitonto (BA)<br />
-                  <strong>Telefono:</strong> 080 375 1021<br />
+                  <strong>Telefono:</strong> 800 381 500<br />
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:polizialocale@comune.bitonto.ba.it">
-                    polizialocale@comune.bitonto.ba.it
+                  <a href="mailto:protocollo.comunebitonto@pec.rupar.puglia.it">
+                    protocollo.comunebitonto@pec.rupar.puglia.it
                   </a><br />
-                  <strong>Numero verde emergenze:</strong> 800 300 797
+                  
                 </p>
 
                 <hr className="my-4" />
 
                 <h5 className="mb-3">💡 Pubblica Illuminazione</h5>
+                 <strong>Email:</strong>{" "}
+                  <a href="mailto:segnalazioni.bitonto@citygreenlight.com">
+                    segnalazioni.bitonto@citygreenlight.com
+                  </a><br />
                 <p>
-                  Per segnalazioni guasti: <strong>800 894 520</strong><br />
-                  Servizio attivo 24/7 - Gestore: <strong>Citelum S.A.</strong>
+                  Per segnalazioni guasti: <strong>800 642 120</strong><br />
+                  Servizio attivo 24/7 - Gestore: <strong>CityGreenLight</strong>
                 </p>
 
                 <hr className="my-4" />
 
                 <h5 className="mb-3">🚌 Trasporto Pubblico</h5>
                 <p>
-                  Gestito da <strong>STP Bari S.p.A.</strong><br />
+                  Gestito da <strong>Asv Miccolis</strong><br />
                   <strong>Sito:</strong>{" "}
-                  <a href="https://www.stpbrindisi.it" target="_blank" rel="noreferrer">
-                    www.stpbrindisi.it
+                  <a href="https://www.busmiccolis.it/" target="_blank" rel="noreferrer">
+                    www.busmiccolis.it
                   </a><br />
-                  <strong>Info e orari:</strong> 080 533 1636
+                  <strong>Email:</strong>{" "}
+                    <a href="mailto:info@busmiccolis.it">
+                      info@busmiccolis.it
+                    </a><br />
                 </p>
 
                 <hr className="my-4" />
@@ -127,8 +134,12 @@ export default function InfoUtili() {
                   <a href="https://www.comune.bitonto.ba.it" target="_blank" rel="noreferrer">
                     www.comune.bitonto.ba.it
                   </a><br />
-                  <strong>Indirizzo:</strong> Piazza Aldo Moro, Bitonto (BA)<br />
-                  <strong>Telefono:</strong> 080 371 6111
+                  <strong>Indirizzo:</strong> Corso Vittorio Emanuele, Bitonto (BA)<br />
+                  <strong>Telefono:</strong> 080 371 6102<br />
+                  <strong>Email:</strong>{" "}
+                  <a href="mailto:info@comune.bitonto.ba.it">
+                    info@comune.bitonto.ba.it
+                  </a><br />
                 </p>
 
                 <hr className="my-4" />

@@ -83,9 +83,7 @@ export default function IndexModern() {
                         <div className="col-lg-7 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
                             <div className="section-title mb-0 ms-lg-5 ms-md-3 wow animated fadeInRight" data-wow-delay="0.5s">
                                 <h4 className="title text-primary mb-3">Vito D'Alessandro</h4>
-                                <h6 className="designation mb-3">
-                                    Sono un appassionato di <span className="text-primary">AMBIENTE</span>
-                                </h6>
+                            
 
                                 <p className="text-muted">
                                     Sono un cittadino di Bitonto che ha scelto di impegnarsi in prima persona per la propria comunità.
