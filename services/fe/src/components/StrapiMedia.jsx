@@ -11,5 +11,5 @@ export default function StrapiImage({ src, alt, className }) {
 
   const finalUrl = getUrl(src);
 
-  return <img src={finalUrl} alt={alt || ""} className={className} />;
+  return <img src={finalUrl} alt={alt || ""} className={className}  style={{ width: '100%', height: '100%'}}/>;
 }

@@ -107,6 +107,7 @@ export default function Navbar({navClass, socialClass, navDark}){
                     <ul className={socialClass}>
                         <li className="list-inline-item"><Link to="https://www.facebook.com/vitodalessandrobitonto/"><i className="mdi mdi-facebook"></i></Link></li>
                         <li className="list-inline-item"><Link to="https://www.instagram.com/vito_dalessandro_/"><i className="mdi mdi-instagram"></i></Link></li>
+                        <li className="list-inline-item"><a href="https://wa.me/+393383754268" target="_blank" rel="noopener noreferrer"><i className="mdi mdi-whatsapp"></i></a></li>
                     </ul>
                 </div> 
             </div>

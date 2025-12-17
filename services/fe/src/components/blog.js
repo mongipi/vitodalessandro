@@ -29,11 +29,17 @@ export default function Blog({ articoli = [], limit = 3 }){
                     <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2" key={item.documentId}>
                         <div className="blog-post rounded shadow wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
                             {item.immagini && (
-                            <StrapiImage
-                               src={item.immagini[0].formats.small.url}
+                            <div style={{ height: '250px', overflow: 'hidden' }}>
+                              <StrapiImage
+                              src={
+                                item.immagini[0].formats?.small?.url ||
+                                item.immagini[0].formats?.thumbnail?.url ||
+                                item.immagini[0].url
+                                }
                                 className="img-fluid rounded-top"
                                 alt={item.titolo}
                             />
+                             </div>
                             )}                                
                             <div className="content pt-4 pb-4 p-3">
                                 <ul className="list-unstyled d-flex justify-content-between post-meta">

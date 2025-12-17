@@ -18,7 +18,7 @@ SANTO_TOKEN=$(<"$SANTO_TOKEN_FILE")
 APP_VERSION=$(<"$VERSION_FILE")
 
 docker build \
-  --build-arg REACT_APP_STRAPI_API_URL="https://strapi.vps.cloud-ip.cc/api" \
+  --build-arg REACT_APP_STRAPI_API_URL="https://api.vitodalessandro.it" \
   --build-arg REACT_APP_STRAPI_TOKEN="$STRAPI_TOKEN" \
   --build-arg REACT_APP_SANTO_DEL_GIORNO_API_TOKEN="$SANTO_TOKEN" \
   -t my-frontend:$APP_VERSION\

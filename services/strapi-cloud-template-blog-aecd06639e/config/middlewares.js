@@ -1,4 +1,12 @@
 module.exports = [
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: ['https://vitodalessandro.it', 'https://www.vitodalessandro.it'],
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
+      headers: '*',
+    },
+  },
   'strapi::logger',
   'strapi::errors',
   'strapi::security',

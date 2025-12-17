@@ -1,0 +1,96 @@
+version: "3.9"
+
+volumes:
+  strapi-data:
+  strapi-upload:
+  nginxpm_data:
+  nginxpm_letsencrypt:
+
+networks:
+  strapi-network:
+    driver: overlay
+  reverse-proxy:
+    driver: overlay
+
+services:
+  strapiDB:
+    image: postgres:14.5-alpine
+    secrets:
+      - postgress-password
+    environment:
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgress-password
+      POSTGRES_DB: strapi
+    volumes:
+      - strapi-data:/var/lib/postgresql/data
+    networks:
+      - strapi-network
+
+
+  strapi:
+    image: pietromongiello/vitodalessandro:strapi-${APP_VERSION}
+    secrets:
+      - app-keys
+      - postgress-password
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      NODE_ENV: production
+      APP_KEYS_FILE: /run/secrets/app-keys
+      PUBLIC_URL: https://api.vitodalessandro.it
+      API_TOKEN_SALT: tobemodified
+      TRANSFER_TOKEN_SALT: tobemodified
+      JWT_SECRET: tobemodified
+      ADMIN_JWT_SECRET: tobemodified
+    volumes:
+      - strapi-upload:/opt/app/public/uploads
+    networks:
+      - strapi-network
+      - reverse-proxy
+    depends_on:
+      - strapiDB
+    # ports:
+    #   - "1337:1337"
+
+
+  fe:
+    image: pietromongiello/vitodalessandro:frontend-${APP_VERSION}
+    secrets:
+      - strapi-token
+      - santo-token
+    environment:
+      REACT_APP_STRAPI_API_URL: https://api.vitodalessandro.it
+      REACT_APP_STRAPI_TOKEN_FILE: /run/secrets/strapi-token
+      REACT_APP_SANTO_DEL_GIORNO_API_TOKEN_FILE: /run/secrets/santo-token
+    networks:
+      - reverse-proxy
+    # ports:
+    #   - "3000:80"
+
+  nginxpm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginxpm
+    restart: unless-stopped
+    volumes:
+      - nginxpm_data:/data
+      - nginxpm_letsencrypt:/etc/letsencrypt
+    networks:
+      - reverse-proxy
+      - strapi-network
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+
+secrets:
+  postgress-password:
+    external: true
+  app-keys:
+    external: true
+  strapi-token:
+    external: true
+  santo-token:
+    external: true
